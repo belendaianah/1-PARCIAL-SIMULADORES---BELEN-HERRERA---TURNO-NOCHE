@@ -82,8 +82,9 @@ public class SokobanGameManager : MonoBehaviour
                 tablAux.setearObjetos(pared, nivel.Tablero.damePosicionesObjetos("Pared"));
                 tablAux.setearObjetos(jugador, nivel.Tablero.damePosicionesObjetos("Jugador"));
 
-                //pilaTablerosAnteriores.Push(tablAux);
                 tablerosAnteriores.Add(tablAux);
+                //pilaTablerosAnteriores.Push(tablAux);               
+                
 
                 Debug.Log("Tablero" + tablerosAnteriores.Count);
 
@@ -129,7 +130,7 @@ public class SokobanGameManager : MonoBehaviour
                         {
                             nivel.Tablero.setearObjeto(jugador, posicionJugador, orientacionJugador, -1);
                             nivel.Tablero.setearObjeto(casillero, posicionJugador);
-                            //nivel.Tablero.setearObjeto(bloque, posicionJugador, orientacionJugador, -2);
+                            nivel.Tablero.setearObjeto(bloque, posicionJugador, orientacionJugador, -2);
                         }
                         else if (orientacionJugador == "derecha" || orientacionJugador == "arriba")
                         {
@@ -150,6 +151,7 @@ public class SokobanGameManager : MonoBehaviour
 
                     InstanciadorPrefabs.instancia.graficarObjetosTablero(tableroAnterior, SokobanLevelManager.instancia.dameLstPrefabsSokoban());
 
+                    nivel.Tablero = tableroAnterior;
 
                     tablerosAnteriores.Remove(tableroAnterior);
                 }                
