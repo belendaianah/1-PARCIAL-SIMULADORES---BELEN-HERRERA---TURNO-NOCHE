@@ -9,7 +9,8 @@ public class SokobanGameManager : MonoBehaviour
     GameObject casillero, casilleroTarget, pared, jugador, bloque;
     List<Vector2> posOcupadasEsperadasCasillerosTarget;
     //Stack pilaTablerosAnteriores;
-    List<Tablero> tablerosAnteriores = new List<Tablero>(); 
+    List<Tablero> tablerosAnteriores = new List<Tablero>();
+    List<Vector2> posicionesCasillerosTarget = new List<Vector2>();
 
     string orientacionJugador;
     string nombreNivelActual = "Nivel1";
@@ -32,6 +33,7 @@ public class SokobanGameManager : MonoBehaviour
         InstanciadorPrefabs.instancia.graficarCasilleros(nivel.Tablero, casillero);
         InstanciadorPrefabs.instancia.graficarCasillerosTarget(nivel.Tablero, casilleroTarget);
         InstanciadorPrefabs.instancia.graficarObjetosTablero(nivel.Tablero, SokobanLevelManager.instancia.dameLstPrefabsSokoban());
+        posicionesCasillerosTarget = nivel.Tablero.damePosicionesObjetos("CasilleroTarget");
     }
 
     private void Update()
@@ -167,11 +169,24 @@ public class SokobanGameManager : MonoBehaviour
 
     private bool ChequearVictoria(Tablero tablero)
     {
-        List <Vector2> posicionesCasillerosTarget  = nivel.Tablero.damePosicionesObjetos("CasilleroTarget");
+        List <Vector2> posBloques = tablero.damePosicionesObjetos("Bloque");
 
         Debug.Log("Contador target: " + posicionesCasillerosTarget.Count);
 
-        if(posicionesCasillerosTarget.Count == 0)
+        int countWin = 0;
+
+        for(int i = 0; i < posicionesCasillerosTarget.Count; i++)
+        {
+            for(int j = 0; j < posBloques.Count; j++)
+            {
+                if(SonIgualesLosVectores(posicionesCasillerosTarget[i], posBloques[j]))
+                {
+                    countWin++;
+                }
+            }
+        }
+
+        if(posicionesCasillerosTarget.Count == countWin )
         {
             return true;
         }

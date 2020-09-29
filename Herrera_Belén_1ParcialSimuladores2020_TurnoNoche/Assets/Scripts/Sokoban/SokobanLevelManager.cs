@@ -15,11 +15,11 @@ public class SokobanLevelManager : MonoBehaviour
 
     [SerializeField] private Texture2D mapTexture;
     
-    const string Jugador = "3B90DB";
-    const string Bloque = "FF66C2";
+    const string Jugador = "42A5F5";
+    const string Bloque = "F06292";
     const string Casillero = "EEDA5F";
-    const string Pared = "B94A00";
-    const string CasilleroTarget = "77D44F";
+    const string Pared = "E65100";
+    const string CasilleroTarget = "4CAF50";
 
     void Awake()
     {
