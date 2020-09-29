@@ -64,77 +64,80 @@ public class SokobanGameManager : MonoBehaviour
 
     private void mover()
     {
-        if (estoyDeshaciendo == false)
+        if (ChequearVictoria(nivel.Tablero))
         {
-            Tablero tablAux = new Tablero(nivel.Tablero.casilleros.GetLength(0), nivel.Tablero.casilleros.GetLength(1));
-            tablAux.setearObjetos(casillero, nivel.Tablero.damePosicionesObjetos("Casillero"));
-            tablAux.setearObjetos(casilleroTarget, nivel.Tablero.damePosicionesObjetos("CasilleroTarget"));
-            tablAux.setearObjetos(bloque, nivel.Tablero.damePosicionesObjetos("Bloque"));
-            tablAux.setearObjetos(pared, nivel.Tablero.damePosicionesObjetos("Pared"));
-            tablAux.setearObjetos(jugador, nivel.Tablero.damePosicionesObjetos("Jugador"));
-
-            //TIP: pilaTablerosAnteriores.Push(tablAux);
-
-            Vector2 posicionJugador = new Vector2(nivel.Tablero.damePosicionObjeto("Jugador").x, nivel.Tablero.damePosicionObjeto("Jugador").y);
-            GameObject objProximo, objProximoProximo;
-
-            if (orientacionJugador == "izquierda" || orientacionJugador == "abajo")
-            {
-                objProximo = nivel.Tablero.dameObjeto(posicionJugador, orientacionJugador, -1);
-                objProximoProximo = nivel.Tablero.dameObjeto(posicionJugador, orientacionJugador, -2);
-            }
-            else 
-            {
-                objProximo = nivel.Tablero.dameObjeto(posicionJugador, orientacionJugador, 1);
-                objProximoProximo = nivel.Tablero.dameObjeto(posicionJugador, orientacionJugador, 2);
-            }
-
-            if (objProximo != null && objProximo.CompareTag("casillero"))
-            {
-                if (orientacionJugador == "izquierda" || orientacionJugador == "abajo")
-                {
-                    nivel.Tablero.setearObjeto(casillero, posicionJugador);
-                    nivel.Tablero.setearObjeto(jugador, posicionJugador, orientacionJugador, -1);
-                }
-                else if (orientacionJugador == "derecha" || orientacionJugador == "arriba")
-                {
-                    nivel.Tablero.setearObjeto(casillero, posicionJugador);
-                    nivel.Tablero.setearObjeto(jugador, posicionJugador, orientacionJugador, 1);
-                }
-
-            }
-            else
-            {
-                if (objProximo != null && objProximo.CompareTag("bloque") && objProximoProximo != null && objProximoProximo.CompareTag("bloque"))
-                {
-                    Debug.Log("doble caja");
-                }
-                else if (objProximo != null && objProximo.CompareTag("bloque") && objProximoProximo != null)
-                {
-                    if (orientacionJugador == "izquierda" || orientacionJugador == "abajo")
-                    {
-                        nivel.Tablero.setearObjeto(jugador, posicionJugador, orientacionJugador, -1);
-                        nivel.Tablero.setearObjeto(casillero, posicionJugador);
-                        //nivel.Tablero.setearObjeto(bloque, posicionJugador, orientacionJugador, -2);
-                    }
-                    else if (orientacionJugador == "derecha" || orientacionJugador == "arriba")
-                    {
-                        nivel.Tablero.setearObjeto(jugador, posicionJugador, orientacionJugador, 1);
-                        nivel.Tablero.setearObjeto(casillero, posicionJugador);
-                        nivel.Tablero.setearObjeto(bloque, posicionJugador, orientacionJugador, 2); ;
-                    }
-                }
-            }
-            InstanciadorPrefabs.instancia.graficarObjetosTablero(nivel.Tablero, SokobanLevelManager.instancia.dameLstPrefabsSokoban());
-
-            if (ChequearVictoria(nivel.Tablero))
-            {
-                Debug.Log("Gané");
-            }
+            Debug.Log("Gané");
         }
         else
         {
-            estoyDeshaciendo = false;
+            if (estoyDeshaciendo == false)
+            {
+                Tablero tablAux = new Tablero(nivel.Tablero.casilleros.GetLength(0), nivel.Tablero.casilleros.GetLength(1));
+                tablAux.setearObjetos(casillero, nivel.Tablero.damePosicionesObjetos("Casillero"));
+                tablAux.setearObjetos(casilleroTarget, nivel.Tablero.damePosicionesObjetos("CasilleroTarget"));
+                tablAux.setearObjetos(bloque, nivel.Tablero.damePosicionesObjetos("Bloque"));
+                tablAux.setearObjetos(pared, nivel.Tablero.damePosicionesObjetos("Pared"));
+                tablAux.setearObjetos(jugador, nivel.Tablero.damePosicionesObjetos("Jugador"));
+
+                //TIP: pilaTablerosAnteriores.Push(tablAux);
+
+                Vector2 posicionJugador = new Vector2(nivel.Tablero.damePosicionObjeto("Jugador").x, nivel.Tablero.damePosicionObjeto("Jugador").y);
+                GameObject objProximo, objProximoProximo;
+
+                if (orientacionJugador == "izquierda" || orientacionJugador == "abajo")
+                {
+                    objProximo = nivel.Tablero.dameObjeto(posicionJugador, orientacionJugador, -1);
+                    objProximoProximo = nivel.Tablero.dameObjeto(posicionJugador, orientacionJugador, -2);
+                }
+                else
+                {
+                    objProximo = nivel.Tablero.dameObjeto(posicionJugador, orientacionJugador, 1);
+                    objProximoProximo = nivel.Tablero.dameObjeto(posicionJugador, orientacionJugador, 2);
+                }
+
+                if (objProximo != null && objProximo.CompareTag("casillero"))
+                {
+                    if (orientacionJugador == "izquierda" || orientacionJugador == "abajo")
+                    {
+                        nivel.Tablero.setearObjeto(casillero, posicionJugador);
+                        nivel.Tablero.setearObjeto(jugador, posicionJugador, orientacionJugador, -1);
+                    }
+                    else if (orientacionJugador == "derecha" || orientacionJugador == "arriba")
+                    {
+                        nivel.Tablero.setearObjeto(casillero, posicionJugador);
+                        nivel.Tablero.setearObjeto(jugador, posicionJugador, orientacionJugador, 1);
+                    }
+
+                }
+                else
+                {
+                    if (objProximo != null && objProximo.CompareTag("bloque") && objProximoProximo != null && objProximoProximo.CompareTag("bloque"))
+                    {
+                        Debug.Log("doble caja");
+                    }
+
+                    else if (objProximo != null && objProximo.CompareTag("bloque") && objProximoProximo != null)
+                    {
+                        if (orientacionJugador == "izquierda" || orientacionJugador == "abajo")
+                        {
+                            nivel.Tablero.setearObjeto(jugador, posicionJugador, orientacionJugador, -1);
+                            nivel.Tablero.setearObjeto(casillero, posicionJugador);
+                            //nivel.Tablero.setearObjeto(bloque, posicionJugador, orientacionJugador, -2);
+                        }
+                        else if (orientacionJugador == "derecha" || orientacionJugador == "arriba")
+                        {
+                            nivel.Tablero.setearObjeto(jugador, posicionJugador, orientacionJugador, 1);
+                            nivel.Tablero.setearObjeto(casillero, posicionJugador);
+                            nivel.Tablero.setearObjeto(bloque, posicionJugador, orientacionJugador, 2); ;
+                        }
+                    }
+                }
+                InstanciadorPrefabs.instancia.graficarObjetosTablero(nivel.Tablero, SokobanLevelManager.instancia.dameLstPrefabsSokoban());
+            }
+            else
+            {
+                estoyDeshaciendo = false;
+            }
         }
     }
 
@@ -147,13 +150,16 @@ public class SokobanGameManager : MonoBehaviour
     {
         List <Vector2> posicionesCasillerosTarget  = nivel.Tablero.damePosicionesObjetos("CasilleroTarget");
 
-        foreach (Vector2 casilleroTarget in posicionesCasillerosTarget)
-        {
+        Debug.Log("Contador target: " + posicionesCasillerosTarget.Count);
 
+        if(posicionesCasillerosTarget.Count == 0)
+        {
+            return true;
         }
-        
-        //Time.timeScale = 0f;
-        return false;
+        else
+        {
+            return false;
+        }
     }
 }
 
