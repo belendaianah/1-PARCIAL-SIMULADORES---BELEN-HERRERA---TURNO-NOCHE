@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+
 public class SokobanLevelManager : MonoBehaviour
 {
     public GameObject casillero;
@@ -8,8 +9,17 @@ public class SokobanLevelManager : MonoBehaviour
     public GameObject jugador;
     public GameObject bloque;
     public GameObject pared;
- 
+
+
     public static SokobanLevelManager instancia;
+
+    [SerializeField] private Texture2D mapTexture;
+    
+    const string Jugador = "70848B";
+    const string Bloque = "FFEFFF";
+    const string Casillero = "EEDA5F" ;
+    const string Pared = "A7998E";
+    const string CasilleroTarget = "97B694";
 
     void Awake()
     {
@@ -67,14 +77,41 @@ public class SokobanLevelManager : MonoBehaviour
     {
         Tablero tablero = SokobanLevelManager.instancia.dameTablero(8, 8);
 
-        tablero.setearObjeto(pared, new Vector2(6, 6));
-        tablero.setearObjeto(jugador, new Vector2(1,1));
-        tablero.setearObjeto(bloque, new Vector2(1,4));
-        tablero.setearObjeto(bloque, new Vector2(2,4));
-        tablero.setearObjeto(bloque, new Vector2(3,4));
-        tablero.setearObjeto(casilleroTarget, new Vector2(1, 7));
-        tablero.setearObjeto(casilleroTarget, new Vector2(2, 7));
-        tablero.setearObjeto(casilleroTarget, new Vector2(3, 7));
+        for(int x = 0; x < mapTexture.width; x++)
+        {
+            for(int y = 0; y < mapTexture.height; y++)
+            {
+                mapTexture.GetPixel(x,y);
+                Color color = mapTexture.GetPixel(x, y);
+
+                string hex = ColorUtility.ToHtmlStringRGB(color);
+                Debug.Log(hex);
+                
+                switch (hex)
+                {
+                    case Jugador:
+                        Debug.Log("Entro jugador");
+                        tablero.setearObjeto(jugador, new Vector2(x, y));
+                        break;
+                    case Bloque:
+                        Debug.Log("Entro bloque");
+                        tablero.setearObjeto(bloque, new Vector2(x,y));
+                        break;
+                    case Casillero:
+                        Debug.Log("Entro casilleros");
+                        tablero.setearObjeto(casillero, new Vector2(x, y));
+                        break;
+                    case Pared:
+                        Debug.Log("Entro pared");
+                        tablero.setearObjeto(pared, new Vector2(x, y));
+                        break;
+                    case CasilleroTarget:
+                        Debug.Log("Entro cas target");
+                        tablero.setearObjeto(casilleroTarget, new Vector2(x, y));
+                        break;
+                }
+            }
+        }
         return tablero;
     }
 }
