@@ -13,7 +13,6 @@ public class SokobanGameManager : MonoBehaviour
 
     string orientacionJugador;
     string nombreNivelActual = "Nivel1";
-    bool gameOver = false;
     bool estoyDeshaciendo = false;
 
     private void Start()
