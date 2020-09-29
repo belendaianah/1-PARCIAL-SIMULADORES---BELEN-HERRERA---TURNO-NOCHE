@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 public class SokobanGameManager : MonoBehaviour
 {
     Nivel nivel, nivelAux;
     GameObject casillero, casilleroTarget, pared, jugador, bloque;
     List<Vector2> posOcupadasEsperadasCasillerosTarget;
-    Stack pilaTablerosAnteriores;
+    //Stack pilaTablerosAnteriores;
+    List<Tablero> tablerosAnteriores = new List<Tablero>(); 
 
     string orientacionJugador;
     string nombreNivelActual = "Nivel1";
@@ -60,6 +62,7 @@ public class SokobanGameManager : MonoBehaviour
             estoyDeshaciendo = true;
             mover();
         }
+
     }
 
     private void mover()
@@ -79,7 +82,11 @@ public class SokobanGameManager : MonoBehaviour
                 tablAux.setearObjetos(pared, nivel.Tablero.damePosicionesObjetos("Pared"));
                 tablAux.setearObjetos(jugador, nivel.Tablero.damePosicionesObjetos("Jugador"));
 
-                //TIP: pilaTablerosAnteriores.Push(tablAux);
+                //pilaTablerosAnteriores.Push(tablAux);
+                tablerosAnteriores.Add(tablAux);
+
+                Debug.Log("Tablero" + tablerosAnteriores.Count);
+
 
                 Vector2 posicionJugador = new Vector2(nivel.Tablero.damePosicionObjeto("Jugador").x, nivel.Tablero.damePosicionObjeto("Jugador").y);
                 GameObject objProximo, objProximoProximo;
@@ -136,6 +143,17 @@ public class SokobanGameManager : MonoBehaviour
             }
             else
             {
+                if (tablerosAnteriores.Count > 0)
+                {
+                    Tablero tableroAnterior = tablerosAnteriores.Last<Tablero>();
+
+
+                    InstanciadorPrefabs.instancia.graficarObjetosTablero(tableroAnterior, SokobanLevelManager.instancia.dameLstPrefabsSokoban());
+
+
+                    tablerosAnteriores.Remove(tableroAnterior);
+                }                
+
                 estoyDeshaciendo = false;
             }
         }
